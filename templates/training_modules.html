@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Modules</title>
+</head>
+<body>
+    <h2>Training Modules</h2>
+    {% if modules %}
+        <ul>
+            {% for module in modules %}
+                <li>
+                    <a href="{{ module[2] }}" target="_blank">{{ module[1] }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No training modules available.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+
+    <!-- Optional: Add styles for notifications -->
+    <style>
+        #notifications-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .notification {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            width: 300px;
+            font-size: 14px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .notification span {
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Animation to slide in notifications */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="notifications-container">
+    <!-- Notifications will be appended here dynamically -->
+</div>
+
+<h1>Notifications</h1>
+
+{% if notifications %}
+    <ul>
+        {% for notification in notifications %}
+            <li>
+                <div class="notification">
+                    <p>{{ notification[2] }} <span>({{ notification[4] }})</span></p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No new notifications.</p>
+{% endif %}
+
+<script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+<script type="text/javascript">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    // Listen for new notifications
+    socket.on('new_notification', function(data) {
+        // Create a new notification element
+        var notificationElement = document.createElement('div');
+        notificationElement.classList.add('notification');
+        notificationElement.innerHTML = data.message;
+
+        // Append it to the notifications container
+        document.getElementById('notifications-container').appendChild(notificationElement);
+
+        // Optionally, set a timer to remove the notification after a few seconds
+        setTimeout(function() {
+            notificationElement.remove();
+        }, 5000); // Notification disappears after 5 seconds
+    });
+</script>
+
+</body>
+</html>

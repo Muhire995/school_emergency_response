@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Staff Dashboard</title>
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: #C6A15B;
+            color: white;
+            width: 180px;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-right: 80px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: none;
+        }
+
+        .sidebar .logout-btn {
+            margin-top: 50px;
+            background-color: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: block;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-right: 110px;
+            margin-top: -10px;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: #c9302c;
+        }
+
+        /* Content Styling */
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        .content h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .content ul li {
+            margin: 15px 0;
+            font-size: 18px;
+        }
+
+        .content ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .content ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .content {
+                margin-left: 200px;
+            }
+
+        #notifications-container {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 300px;
+        }
+
+        .notification {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>SERCMS</h2>
+        <div id="notifications-container">
+    <!-- Notifications will be appended here -->
+   </div>
+        <ul>
+            <li><a href="{{ url_for('send_alert') }}">Send Alerts</a></li>
+            <li><a href="{{ url_for('add_incident') }}">Add Incident</a></li>
+            <li><a href="{{ url_for('view_reports') }}">View Incident Reports</a></li>
+            <li><a href="{{ url_for('view_alerts') }}">Notification</a></li>
+<!--            <li><a href="{{ url_for('training_modules') }}">Training Modules</a></li>-->
+<!--            <li><a href="{{ url_for('emergency_procedures') }}">Emergency Procedures</a></li>-->
+<!--            <li><a href="{{ url_for('real_time_updates') }}">Real-time Updates</a></li>-->
+        </ul>
+        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+
+</body>
+</html>

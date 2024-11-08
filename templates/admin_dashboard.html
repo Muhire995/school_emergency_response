@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar h2 {
+            color: #ecf0f1;
+            margin-bottom: 40px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            font-size: 18px;
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #3498db;
+        }
+
+        .sidebar .logout-btn {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* New email display styling */
+        .sidebar .email {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #ecf0f1;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Content area */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .content h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .content p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content ul li {
+            margin-bottom: 20px;
+        }
+
+        .content ul li a {
+            font-size: 18px;
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .content ul li a:hover {
+            color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content {
+                margin-left: 200px;
+            }
+
+            .sidebar h2 {
+                font-size: 20px;
+            }
+
+            .sidebar ul li a {
+                font-size: 16px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar h2 {
+                font-size: 18px;
+            }
+
+            .sidebar ul li a {
+                font-size: 14px;
+            }
+
+            .content h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="view_users">Manage Users</a></li>
+            <li><a href="{{ url_for('send_alert') }}">Send Alert</a></li>
+            <li><a href="view_reports_admin">View Incident Reports</a></li>
+            <li><a href="view_alerts">Notifications</a></li>
+            <li><a href="add_evacuations">Add Evacuation</a></li>
+        </ul>
+        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        {% if user_email %}
+    <div class="email">
+        Logged in as: <strong>{{ user_email }}</strong>
+    </div>
+{% endif %}
+
+    </div>
+
+    <div class="content">
+        <h2>Welcome, Admin!</h2>
+        <p>You have full access to the system. Below are the available sections you can manage:</p>
+        <ul>
+            <li><a href="#">Manage Users: View and manage users in the system.</a></li>
+            <li><a href="#">Incident Reports: View and manage incident reports submitted by staff and responders.</a></li>
+            <li><a href="#">Emergency Plans: Access and update the school's emergency plans.</a></li>
+            <li><a href="#">Post-Incident Recovery: Review and manage recovery actions post-incident.</a></li>
+        </ul>
+    </div>
+</body>
+</html>

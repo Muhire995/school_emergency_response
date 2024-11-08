@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 40;
+            box-sizing: border-box;
+        }
+
+        /* Main body and layout */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ecf0f1;
+            display: flex;
+            height: 100vh;
+            flex-direction: row;
+            color: #333;
+
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: #C6A15B;
+            color: white;
+            width: 250px;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            margin-left: -30px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+            font-size: 5px;
+        }
+
+        .sidebar ul li {
+            margin: 5px 0;
+        }
+
+        .sidebar ul li a {
+            font-size: 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 5px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: none;
+            color: white;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 270px; /* Sidebar width + padding */
+            padding: 20px;
+            width: 100%;
+            overflow-y: auto;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            max-width: 850px;
+            margin: 50px auto;
+        }
+
+        .container h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .container p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .container ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 30px;
+        }
+
+        .container ul li {
+            margin-bottom: 20px;
+        }
+
+        .container ul li a {
+            font-size: 18px;
+            color: #3498db;
+            text-decoration: none;
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .container ul li a:hover {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        /* Notification Styling */
+        .notification {
+            background-color: #f39c12;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: left;
+            width: 100%;
+            display: none; /* Hidden initially */
+        }
+
+        .notification.active {
+            display: block;
+        }
+
+        .logout-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: none;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+            }
+
+            .container {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .container h2 {
+                font-size: 24px;
+            }
+
+            .container p {
+                font-size: 16px;
+            }
+
+            .container ul li a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Student Dashboard</h2>
+        <ul>
+            <li><a href="{{ url_for('view_evacuations') }}">Evaculation Plan</a></li>
+            <li><a href="{{ url_for('send_alert') }}">Send Alert</a></li>
+            <li><a href="{{ url_for('view_alerts') }}"> Notification</a></li>
+            <li><a href="{{ url_for('profile') }}">View Profile</a></li>
+            <li><a href="{{ url_for('view_reports') }}">View Reports</a></li>
+             <li><a class="logout-btn" href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Notification Area -->
+            <div class="notification" id="notification">
+                New Emergency Alert: Please check the latest updates!
+            </div>
+
+            <h2>Welcome, Student!</h2>
+            <p>Here are your profile</p>
+
+<!--            <ul>-->
+<!--                <li><a href="{{ url_for('view_reports') }}">View Incident Reports</a></li>-->
+<!--                <li><a href="{{ url_for('view_evacuations') }}">View Evacuation Instructions</a></li>-->
+<!--&lt;!&ndash;                <li><a href="{{ url_for('real_time_updates') }}">Real-Time Updates</a></li>&ndash;&gt;-->
+<!--                <li><a href="{{ url_for('emergency_procedures') }}">Emergency Procedures</a></li>-->
+<!--            </ul>-->
+
+            <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <script>
+        // Function to show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = message;
+            notification.classList.add('active');
+
+            // Automatically hide notification after 5 seconds
+            setTimeout(function() {
+                notification.classList.remove('active');
+            }, 5000);
+        }
+
+        // Example: Show notification when the page loads
+        window.onload = function() {
+            showNotification("Important update: Please follow the evacuation procedures!");
+        }
+    </script>
+</body>
+</html>

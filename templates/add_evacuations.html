@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Evacuation Plan</title>
+    <style>
+        /* General reset and box sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #C6A15B;
+            padding: 20px;
+            color: white;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: -10px;
+            margin-left: -10px;
+            margin-right: 90px;
+        }
+
+        .sidebar .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar .nav-links li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin-left: 40px;
+        }
+
+        .sidebar .nav-links li a:hover {
+            background-color: none;
+        }
+
+        .sidebar .logout-btn {
+            margin-top: -10px;
+            background-color: none;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            display: block;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-left: -78px;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: none;
+        }
+
+        /* Main content */
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+            background-color: none;
+            color: #ffff;
+            padding: 6px 20px;
+            border-radius: 4px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+            background-color: #ffff;
+            color: #808080;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        /* Form styling */
+        .form-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            display: block;
+            color: #666;
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        /* Flexbox grid layout */
+        .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-grid .form-item {
+            flex: 1;
+            min-width: 150px;
+            max-width: 300px;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container textarea:focus {
+            border-color: #0066cc;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 102, 204, 0.5);
+        }
+
+        .form-container textarea {
+            resize: vertical;
+        }
+
+        .form-container button {
+            background-color: #C6A15B;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Back button */
+        .back-btn {
+            background-color: #808080;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h1>SERCMS</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('send_alert') }}">Send Alerts</a></li>
+            <li><a href="{{ url_for('view_evacuations') }}">Evacuation Plans</a></li>
+            <li><a href="{{ url_for('emergency_procedures') }}">Emergency Procedures</a></li>
+        </ul>
+        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h2>Add New Evacuation Plan</h2>
+
+        <!-- Evacuation Plan Form -->
+        <div class="form-container">
+            <form method="POST">
+                <!-- Evacuation Plan Information (Grid Layout) -->
+                <div class="form-grid">
+                    <div class="form-item">
+                        <label for="plan_name">Plan Name</label>
+                        <input type="text" id="plan_name" name="plan_name" required>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="evacuation_timing">Evacuation Timing</label>
+                        <input type="text" id="evacuation_timing" name="evacuation_timing" required>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="assembly_points">Assembly Points</label>
+                        <textarea id="assembly_points" name="assembly_points" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-item">
+                        <label for="accountability_procedure">Accountability Procedure</label>
+                        <textarea id="accountability_procedure" name="accountability_procedure" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit">Add Plan</button>
+                <a href="{{ url_for('view_evacuations') }}" class="back-btn">Back to Evacuation Plans</a>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

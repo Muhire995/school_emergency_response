@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Incident Reports</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .container {
+            margin-left: 250px;
+            padding: 0px;
+            width: calc(120% - 60px); /* Adjust container width to account for sidebar */
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        /* Table Styling */
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: auto; /* Ensures columns are evenly spaced */
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 14px;
+            text-align: center;
+            word-wrap: break-word; /* To prevent text overflow */
+            font-size: 15px;
+        }
+
+        table th {
+            background-color: #C6A15B;
+            color: white;
+            font-size: 10px;
+        }
+
+        /* Form Styling */
+        .status-form select {
+            padding: 5px;
+            border-radius: 4px;
+            width: 100px; /* Ensures the select box doesn't get too wide */
+        }
+
+        /* Button Styling */
+        .update-btn {
+            background-color: #C6A15B;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .update-btn:hover {
+            background-color: #8b5f34;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #C6A15B;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background-color: #8b5f34;
+        }
+
+        /* Download Button Styling */
+        .download-btn {
+            background-color: #4CAF50; /* Green color for download */
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 16px;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design for smaller screens */
+        @media (max-width: 768px) {
+            table th, table td {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            .container {
+                width: 100%;
+                padding: 5px;
+            }
+
+            .status-form select {
+                width: 80px;
+            }
+
+            .update-btn {
+                width: auto;
+            }
+
+            .back-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .download-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <a href="{{ url_for('view_reports') }}">View Reports</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <h2>Incident Reports - Admin</h2>
+
+        <!-- Table to display all incident reports -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Suspect First Name</th>
+                    <th>Suspect Last Name</th>
+                    <th>Suspect Gender</th>
+                    <th>Suspect Age</th>
+                    <th>Incident Type</th>
+                    <th>School</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report['suspect_first_name'] }}</td>
+                    <td>{{ report['suspect_last_name'] }}</td>
+                    <td>{{ report['suspect_gender'] }}</td>
+                    <td>{{ report['suspect_age'] }}</td>
+                    <td>{{ report['incident_type'] }}</td>
+                    <td>{{ report['school_name'] }}</td>
+                    <td>{{ report['incident_date'] }}</td>
+                    <td>{{ report['incident_time'] }}</td>
+                    <td>{{ report['status'] }}</td>
+                    <td>
+                        <!-- Form to update incident status -->
+                        <form method="POST" class="status-form">
+                            <input type="hidden" name="incident_id" value="{{ report['id'] }}">
+                            <select name="status">
+                                <option value="open" {% if report['status'] == 'open' %}selected{% endif %}>Open</option>
+                                <option value="closed" {% if report['status'] == 'closed' %}selected{% endif %}>Closed</option>
+                                <option value="in-progress" {% if report['status'] == 'in-progress' %}selected{% endif %}>In Progress</option>
+                            </select>
+                            <button type="submit" class="update-btn">Update Status</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Back Button -->
+        <a href="{{ url_for('view_reports') }}" class="back-btn">Back to Reports</a>
+    </div>
+
+    <!-- Download Button -->
+    <a href="{{ url_for('download_report') }}" class="download-btn">Download Report</a>
+
+</body>
+</html>

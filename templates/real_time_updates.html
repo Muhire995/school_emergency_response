@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Updates</title>
+</head>
+<body>
+    <h2>Real-Time Emergency Updates</h2>
+    {% if updates %}
+        <table border="1">
+            <tr>
+                <th>Update Title</th>
+                <th>Update Description</th>
+                <th>Updated At</th>
+            </tr>
+            {% for update in updates %}
+            <tr>
+                <td>{{ update[1] }}</td>
+                <td>{{ update[2] }}</td>
+                <td>{{ update[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No real-time updates found.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

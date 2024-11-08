@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reintegration Support System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+                background-color: #cac09e;
+        }
+
+        header {
+            background-color: #443d25;
+            color: #fff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style-type: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #f0f0f0;
+        }
+
+        main {
+            padding-top: 80px;
+        }
+
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1600x900/?community,support');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            background-color: #51482c;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ae9f6b;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #51482c;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .feature {
+            flex-basis: calc(25% - 2rem);
+            text-align: center;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 3rem;
+            color: #51482c;
+            margin-bottom: 1rem;
+        }
+
+        .about {
+            background-color: #cac09e;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .about h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: #51482c;
+            color: #FFFF;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .feature {
+                flex-basis: calc(50% - 2rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feature {
+                flex-basis: 100%;
+            }
+        }
+
+        .logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.logo-icon {
+  margin-right: 8px;
+}
+
+/* If you want the icon to change color on hover */
+.logo:hover .logo-icon {
+  stroke: #f0f0f0;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+    <circle cx="12" cy="8" r="5"/>
+    <path d="M3 21v-2a7 7 0 0 1 14 0v2"/>
+    <line x1="8" y1="22" x2="16" y2="22"/>
+  </svg>
+  <span>RSS</span>
+</div>
+<!--            <div class="logo">RCS</div>-->
+            <nav>
+                <ul>
+<!--                    <li><a href="{{ url_for('home') }}">Home</a></li>-->
+                    {% if 'user_id' in session %}
+                        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+<!--                        <li><a href="{{ url_for('register') }}">Register</a></li>-->
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to the Reintegration Support System</h1>
+                <p>Empowering individuals to successfully transition back into society</p>
+                {% if 'user_id' not in session %}
+                    <a href="{{ url_for('register') }}" class="btn">Join Our Community</a>
+                {% else %}
+                    <a href="{{ url_for('dashboard') }}" class="btn">Go to Dashboard</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <i class="fas fa-book-reader"></i>
+                <h3>Valuable Resources</h3>
+                <p>Access a wealth of information to support your journey</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <h3>Community Support</h3>
+                <p>Connect with others and share experiences</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your personal growth and achievements</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Expert Guidance</h3>
+                <p>Receive mentorship from experienced professionals</p>
+            </div>
+        </section>
+
+        <section class="about">
+            <h2>About Our Program</h2>
+            <p>The Reintegration Support System is designed to assist individuals transitioning back into society after incarceration. We provide resources, community support, and progress tracking to help you succeed in your journey towards a fulfilling life.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Reintegration Support System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

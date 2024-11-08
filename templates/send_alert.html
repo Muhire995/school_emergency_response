@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Emergency Alerts</title>
+    <style>
+        /* Your existing CSS */
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: #C6A15B;
+            color: white;
+            width: 212px;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: -5px;
+            margin-left: -40px;
+            background-color: none;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            display: block;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-left: 20px;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: none;
+        }
+
+        .sidebar .logout-btn {
+            margin-top: -10px;
+            background-color: #C6A15B;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: block;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 20px;
+            margin-right: 102px;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: none;
+        }
+
+        /* Content Styling */
+        .content {
+            margin-left: 350px;
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #fff;
+            min-height: 100vh;
+            margin-bottom: 100px;
+        }
+
+        .content h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 28px;
+            margin-left: 60px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-container input,
+        .form-container textarea,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-container button {
+            background-color: #C6A15B;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-container button:hover {
+            background-color: #218838;
+        }
+
+        /* Back Button */
+        .back-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content {
+                margin-left: 200px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <ul>
+            <li><a href="{{ url_for('add_incident') }}">Add Incident</a></li>
+            <li><a href="{{ url_for('view_reports') }}">Incident Reports</a></li>
+        </ul>
+        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h2>Send Emergency Alerts</h2>
+
+        <!-- Alert Form -->
+        <div class="form-container">
+            <form action="{{ url_for('send_alert') }}" method="POST">
+                <label for="alert_type">Alert Type</label>
+                <select id="alert_type" name="alert_type" required>
+                    <option value="fire">Fire</option>
+                    <option value="earthquake">Earthquake</option>
+                    <option value="lockdown">Lockdown</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="message">Alert Message</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+
+                <label for="recipients">Select Recipients</label>
+                <select id="recipients" name="recipients" multiple required>
+                    <option value="students">Students</option>
+                    <option value="staff">Staff</option>
+                    <option value="parents">Parents</option>
+                </select>
+
+                <button type="submit">Send Alert</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

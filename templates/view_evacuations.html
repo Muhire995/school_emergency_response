@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evacuation Plans</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #808080;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #C6A15B;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f1f1f1;
+        }
+
+        tr:hover td {
+            background-color: #e6f7ff;
+        }
+
+        .no-data {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #C6A15B;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Evacuation Plans for {{ school_name }}</h1>
+
+        {% if evacuation_plans %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plan Name</th>
+                        <th>Evacuation Timing</th>
+                        <th>Assembly Points</th>
+                        <th>Accountability Procedure</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plan in evacuation_plans %}
+                        <tr>
+                            <td>{{ plan[2] }}</td>  <!-- Assuming plan_name is in column 1 -->
+                            <td>{{ plan[3] }}</td>  <!-- Assuming evacuation_timing is in column 2 -->
+                            <td>{{ plan[4] }}</td>  <!-- Assuming assembly_points is in column 3 -->
+                            <td>{{ plan[5] }}</td>  <!-- Assuming accountability_procedure is in column 4 -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="no-data">No evacuation plans available for this school.</p>
+        {% endif %}
+
+        <a href="{{ url_for('add_evacuations') }}" class="btn">Back to Add Evacuation</a>
+    </div>
+
+</body>
+</html>

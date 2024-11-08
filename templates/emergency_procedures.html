@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Procedures</title>
+</head>
+<body>
+    <h2>Emergency Procedures</h2>
+    {% if procedures %}
+        <ul>
+            {% for procedure in procedures %}
+                <li>
+                    <strong>{{ procedure[1] }}</strong><br>
+                    {{ procedure[2] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No emergency procedures available.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
