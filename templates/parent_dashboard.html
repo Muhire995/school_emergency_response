@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General reset */
         * {
             margin: 0;
             padding: 0;
@@ -13,105 +13,275 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
         }
 
-        .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
+            color: white;
+            padding: 25px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            margin-bottom: 40px;
+            margin-right: 120px;
+            font-size: 24px;
             text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 28px;
+        .sidebar h2 i {
+            margin-right: 10px;
         }
 
-        p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #555;
-        }
-
-        ul {
+        .sidebar ul {
             list-style: none;
             padding-left: 0;
-            margin-bottom: 30px;
         }
 
-        ul li {
+        .sidebar ul li {
             margin-bottom: 15px;
         }
 
-        ul li a {
-            font-size: 18px;
-            color: #3498db;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        ul li a:hover {
-            color: #2980b9;
-        }
-
-        .logout-btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #e74c3c;
-            color: white;
+        .sidebar ul li a {
             font-size: 16px;
+            color: #fff;
             text-decoration: none;
-            border-radius: 4px;
-            margin-top: 30px;
-            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .logout-btn:hover {
-            background-color: #c0392b;
+        .sidebar ul li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
         }
 
-        /* Responsive Design */
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .sidebar .logout-btn {
+            margin-bottom: 40px;
+            margin-right: 120px;
+            padding: 12px 25px;
+            background-color: none;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: none;
+            transform: translateY(-2px);
+        }
+
+        .content {
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-top: 45px;
+            padding-left: 190px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .content h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
+        }
+
+        .dashboard-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .alert-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .alert-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .alert-item h3 {
+            color: #C6A15B;
+            margin-bottom: 10px;
+        }
+
+        .alert-item small {
+            color: #666;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .procedure-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .procedure-item h3 {
+            color: #C6A15B;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .content {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+            }
+        }
+
         @media (max-width: 480px) {
-            .container {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding: 15px;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
                 padding: 20px;
-                max-width: 100%;
-            }
-
-            h2 {
-                font-size: 24px;
-            }
-
-            ul li a {
-                font-size: 16px;
-            }
-
-            .logout-btn {
-                font-size: 14px;
-                padding: 10px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Parent Dashboard</h2>
-        <p>Welcome, Parent! You can view updates regarding your child's safety during emergencies.</p>
+    <div class="sidebar">
+        <h2><i class="fas fa-user-circle"></i>Parent </h2>
         <ul>
-            <li><a href="#">View Emergency Alerts</a></li>
-            <li><a href="#">Child's Evacuation Status</a></li>
+            <li><a href="{{ url_for('view_alerts') }}"><i class="fas fa-bell"></i>Alerts</a></li>
+            <li><a href="{{ url_for('view_reports') }}"><i class="fas fa-file-alt"></i>Incident Reports</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user"></i>Profile</a></li>
         </ul>
-        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </div>
+
+    <div class="content">
+        <div class="top-bar">
+            <h2><i class="fas fa-tachometer-alt"></i>Welcome, {% if parent_info %}{{ parent_info[0] }}{% else %}Dear Parent{% endif %}</h2>
+        </div>
+
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-school"></i>School Information</h2>-->
+<!--            <p>School: {% if parent_info %}{{ parent_info[2] }}{% else %}No School Info{% endif %}</p>-->
+<!--        </div>-->
+
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-bell"></i>Recent Alerts</h2>-->
+<!--            {% if recent_alerts %}-->
+<!--                <div class="alerts-list">-->
+<!--                    {% for alert in recent_alerts %}-->
+<!--                        <div class="alert-item">-->
+<!--                            <h3>{{ alert[1] }}</h3>-->
+<!--                            <p>{{ alert[0] }}</p>-->
+<!--                            <small><i class="fas fa-clock"></i> {{ alert[2].strftime('%Y-%m-%d %H:%M') }}</small>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+<!--            {% else %}-->
+<!--                <p>No recent alerts</p>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-exclamation-triangle"></i>Recent Incidents</h2>-->
+<!--            {% if recent_incidents %}-->
+<!--                <table>-->
+<!--                    <tr>-->
+<!--                        <th><i class="fas fa-tag"></i> Type</th>-->
+<!--                        <th><i class="fas fa-calendar"></i> Date</th>-->
+<!--                        <th><i class="fas fa-info-circle"></i> Status</th>-->
+<!--                    </tr>-->
+<!--                    {% for incident in recent_incidents %}-->
+<!--                        <tr>-->
+<!--                            <td>{{ incident[0] }}</td>-->
+<!--                            <td>{{ incident[1].strftime('%Y-%m-%d') }}</td>-->
+<!--                            <td>{{ incident[2] }}</td>-->
+<!--                        </tr>-->
+<!--                    {% endfor %}-->
+<!--                </table>-->
+<!--            {% else %}-->
+<!--                <p>No recent incidents</p>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-procedures"></i>Emergency Procedures</h2>-->
+<!--            {% if procedures %}-->
+<!--                {% for procedure in procedures %}-->
+<!--                    <div class="procedure-item">-->
+<!--                        <h3>{{ procedure[0] }}</h3>-->
+<!--                        <p>{{ procedure[1] }}</p>-->
+<!--                    </div>-->
+<!--                {% endfor %}-->
+<!--            {% else %}-->
+<!--                <p>No emergency procedures available</p>-->
+<!--            {% endif %}-->
+        </div>
     </div>
 </body>
 </html>

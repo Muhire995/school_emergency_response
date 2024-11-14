@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify, flash
 from flask_mysqldb import MySQL
 import hashlib
 import csv
@@ -146,7 +146,7 @@ def signup():
 
         # Insert the new user into the users table with the school_id
         cursor.execute("INSERT INTO users (username, password, email, role, school_id) VALUES (%s, %s, %s, %s, %s)",
-                       (username, hashed_password, email, 'student', school_id))
+                       (username, hashed_password, email, 'responder', school_id))
         conn.commit()
 
         return redirect(url_for('login'))
@@ -629,21 +629,130 @@ def send_alert():
 
     return render_template('send_alert.html')  # Render the form for creating a new alert
 
-# @socketio.on('connect')
-# def handle_connect():
-#     user_id = session.get('user_id')  # Ensure you have the user ID in session
-#     if user_id:
-#         # Join a room corresponding to the user's ID
-#         join_room(user_id)
-#     print("User connected: ", user_id)
-#
-# @socketio.on('disconnect')
-# def handle_disconnect():
-#     user_id = session.get('user_id')
-#     if user_id:
-#         # Leave the room when the user disconnects
-#         leave_room(user_id)
-#     print("User disconnected: ", user_id)
+
+# Add these routes to your Flask application
+
+@app.route('/parent_dashboard')
+def parent_dashboard():
+    if 'username' not in session or session['role'] != 'parent':
+        return redirect(url_for('login'))
+
+    # Get parent's information and their children's information
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    # Get parent's details
+    cursor.execute("""
+        SELECT u.username, u.email, s.name as school_name 
+        FROM users u 
+        JOIN schools s ON u.school_id = s.id 
+        WHERE u.username = %s
+    """, (session['username'],))
+    parent_info = cursor.fetchone()
+
+    # Check if parent_info is None
+    if parent_info is None:
+        flash("Parent information not found.", 'error')  # Show a message to the user
+        return redirect(url_for('login'))  # Or redirect to a different page
+
+    # Get recent alerts for the parent's school
+    cursor.execute("""
+        SELECT message, alert_type, sent_at 
+        FROM alerts 
+        WHERE school_id = %s 
+        ORDER BY sent_at DESC LIMIT 5
+    """, (session['school_id'],))
+    recent_alerts = cursor.fetchall()
+
+    # Get recent incident reports from the school
+    cursor.execute("""
+        SELECT incident_type, incident_date, status 
+        FROM incident_report 
+        WHERE school_id = %s 
+        ORDER BY incident_date DESC LIMIT 5
+    """, (session['school_id'],))
+    recent_incidents = cursor.fetchall()
+
+    # Get emergency procedures
+    cursor.execute("""
+        SELECT procedure_name, description 
+        FROM emergency_procedures 
+        WHERE school_id = %s
+    """, (session['school_id'],))
+    procedures = cursor.fetchall()
+
+    return render_template('parent_dashboard.html',
+                           parent_info=parent_info,
+                           recent_alerts=recent_alerts,
+                           recent_incidents=recent_incidents,
+                           procedures=procedures)
+
+
+@app.route('/responder_dashboard')
+def responder_dashboard():
+    if 'username' not in session or session['role'] != 'responder':
+        return redirect(url_for('login'))
+
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    try:
+        # Get all schools
+        cursor.execute("""
+            SELECT s.id, s.name, s.address FROM schools s
+        """)
+        schools = cursor.fetchall()
+        print("Schools data:", schools)  # Debug print
+
+        # Get active incidents
+        cursor.execute("""
+            SELECT ir.*, s.name as school_name 
+            FROM incident_report ir 
+            JOIN schools s ON ir.school_id = s.id 
+            WHERE ir.status = 'open'
+            ORDER BY ir.incident_date DESC
+        """)
+        active_incidents = cursor.fetchall()
+        print("Incidents data:", active_incidents)  # Debug print
+
+        # Print column names for incidents
+        print("Incident columns:", [desc[0] for desc in cursor.description])
+
+        # Get recent alerts
+        cursor.execute("""
+            SELECT a.*, s.name as school_name 
+            FROM alerts a 
+            JOIN schools s ON a.school_id = s.id 
+            ORDER BY a.sent_at DESC LIMIT 10
+        """)
+        recent_alerts = cursor.fetchall()
+        print("Alerts data:", recent_alerts)  # Debug print
+
+        # Print column names for alerts
+        print("Alert columns:", [desc[0] for desc in cursor.description])
+
+        # Get evacuation plans
+        cursor.execute("""
+            SELECT ep.*, s.name as school_name 
+            FROM evacuation_plans ep 
+            JOIN schools s ON ep.school_id = s.id
+        """)
+        evacuation_plans = cursor.fetchall()
+        print("Plans data:", evacuation_plans)  # Debug print
+
+        # Print column names for plans
+        print("Plan columns:", [desc[0] for desc in cursor.description])
+
+        return render_template('responder_dashboard.html',
+                               schools=schools,
+                               active_incidents=active_incidents,
+                               recent_alerts=recent_alerts,
+                               evacuation_plans=evacuation_plans)
+
+    except Exception as e:
+        print(f"Error occurred while fetching data: {e}")
+        return "There was an error fetching data. Please try again later.", 500
+
 
 # Logout Route
 @app.route('/logout')

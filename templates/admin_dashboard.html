@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General reset */
+        /* Previous styles remain the same until content section */
+
         * {
             margin: 0;
             padding: 0;
@@ -13,29 +15,36 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             display: flex;
             height: 100vh;
         }
 
-        /* Sidebar styling */
         .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
+            width: 280px;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
             color: white;
-            padding: 20px;
+            padding: 25px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
-            color: #ecf0f1;
+            color: #fff;
             margin-bottom: 40px;
+            margin-right: 120px;
             font-size: 24px;
             text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h2 i {
+            margin-right: 10px;
         }
 
         .sidebar ul {
@@ -44,109 +53,173 @@
         }
 
         .sidebar ul li {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .sidebar ul li a {
-            font-size: 18px;
-            color: #ecf0f1;
+            font-size: 16px;
+            color: #fff;
             text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
         }
 
         .sidebar ul li a:hover {
-            background-color: #3498db;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .sidebar .logout-btn {
-            margin-top: 30px;
+            margin-bottom: 50px;
+            margin-top: -10px;
+            margin-right: 115px;
             padding: 12px 25px;
-            background-color: #e74c3c;
+            background-color: none;
             color: white;
             text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-            width: 100%;
-            text-align: center;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
         }
 
         .sidebar .logout-btn:hover {
-            background-color: #c0392b;
+            background-color: none;
+            transform: translateY(-2px);
         }
 
-        /* New email display styling */
         .sidebar .email {
             margin-top: 30px;
-            font-size: 16px;
-            color: #ecf0f1;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
             text-align: center;
-            opacity: 0.7;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Content area */
+        .sidebar .email i {
+            margin-right: 8px;
+        }
+
         .content {
-            margin-left: 250px;
-            padding: 20px;
-            width: 100%;
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
             height: 100vh;
             overflow-y: auto;
         }
 
-        .content h2 {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
+        /* New styles for the back button */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .content p {
-            font-size: 18px;
-            color: #555;
+        .back-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background-color: #C6A15B;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 20px;
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .back-btn:hover {
+            background-color: #b3925b;
+            transform: translateX(-3px);
+        }
+
+        .content h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+
+        .content h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
         .content ul {
             list-style: none;
             padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .content ul li {
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
 
         .content ul li a {
-            font-size: 18px;
-            color: #3498db;
+            font-size: 16px;
+            color: #2c3e50;
             text-decoration: none;
-            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .content ul li a i {
+            margin-right: 12px;
+            color: #C6A15B;
         }
 
         .content ul li a:hover {
-            color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
+                width: 240px;
             }
 
             .content {
-                margin-left: 200px;
-            }
-
-            .sidebar h2 {
-                font-size: 20px;
-            }
-
-            .sidebar ul li a {
-                font-size: 16px;
-            }
-
-            .content h2 {
-                font-size: 24px;
+                margin-left: 240px;
+                width: calc(100% - 240px);
             }
         }
 
@@ -155,53 +228,61 @@
                 width: 100%;
                 position: relative;
                 height: auto;
+                padding: 15px;
             }
 
             .content {
                 margin-left: 0;
+                width: 100%;
+                padding: 20px;
             }
 
-            .sidebar h2 {
-                font-size: 18px;
+            .content ul {
+                grid-template-columns: 1fr;
             }
 
-            .sidebar ul li a {
-                font-size: 14px;
-            }
-
-            .content h2 {
-                font-size: 20px;
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h2>Admin Dashboard</h2>
+        <h2><i class="fas fa-shield-alt"></i>Admin </h2>
         <ul>
-            <li><a href="view_users">Manage Users</a></li>
-            <li><a href="{{ url_for('send_alert') }}">Send Alert</a></li>
-            <li><a href="view_reports_admin">View Incident Reports</a></li>
-            <li><a href="view_alerts">Notifications</a></li>
-            <li><a href="add_evacuations">Add Evacuation</a></li>
+            <li><a href="view_users"><i class="fas fa-users"></i>Manage Users</a></li>
+            <li><a href="{{ url_for('send_alert') }}"><i class="fas fa-bell"></i>Send Alert</a></li>
+            <li><a href="{{ url_for('view_evacuations') }}"><i class="fas fa-bell"></i>View Evacuation</a></li>
+            <li><a href="view_reports_admin"><i class="fas fa-file-alt"></i>View Incident Reports</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>View Profile</a></li>
+            <li><a href="view_alerts"><i class="fas fa-envelope"></i>Notifications</a></li>
+            <li><a href="add_evacuations"><i class="fas fa-route"></i>Add Evacuation</a></li>
         </ul>
-        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
-        {% if user_email %}
-    <div class="email">
-        Logged in as: <strong>{{ user_email }}</strong>
-    </div>
-{% endif %}
-
+         <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<!--        {% if user_email %}-->
+<!--        <div class="email">-->
+<!--            <i class="fas fa-user"></i>Logged in as: <strong>{{ user_email }}</strong>-->
+<!--        </div>-->
+<!--        {% endif %}-->
     </div>
 
     <div class="content">
-        <h2>Welcome, Admin!</h2>
-        <p>You have full access to the system. Below are the available sections you can manage:</p>
+        <div class="top-bar">
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+            <h2><i class="fas fa-tachometer-alt"></i>Welcome, Admin!</h2>
+        </div>
+        <div class="welcome-card">
+            <p>You have full access to the system. Below are the available sections you can manage:</p>
+        </div>
         <ul>
-            <li><a href="#">Manage Users: View and manage users in the system.</a></li>
-            <li><a href="#">Incident Reports: View and manage incident reports submitted by staff and responders.</a></li>
-            <li><a href="#">Emergency Plans: Access and update the school's emergency plans.</a></li>
-            <li><a href="#">Post-Incident Recovery: Review and manage recovery actions post-incident.</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-shield"></i>View Profile</a></li>
+            <li><a href="view_alerts"><i class="fas fa-bell"></i>Notifications</a></li>
         </ul>
     </div>
 </body>

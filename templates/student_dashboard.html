@@ -4,255 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General reset */
         * {
             margin: 0;
-            padding: 40;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        /* Main body and layout */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #ecf0f1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             display: flex;
             height: 100vh;
-            flex-direction: row;
-            color: #333;
-
         }
 
-        /* Sidebar Styling */
         .sidebar {
-            background-color: #C6A15B;
+            width: 280px;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
             color: white;
-            width: 250px;
-            padding: 20px;
+            padding: 25px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            height: 100vh;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
-            font-size: 22px;
-            margin-bottom: 30px;
+            color: #fff;
+            margin-bottom: 40px;
+            font-size: 24px;
             text-align: center;
-            font-weight: bold;
-            margin-left: -30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h2 i {
+            margin-right: 10px;
         }
 
         .sidebar ul {
             list-style: none;
             padding-left: 0;
-            font-size: 5px;
         }
 
         .sidebar ul li {
-            margin: 5px 0;
+            margin-bottom: 15px;
         }
 
         .sidebar ul li a {
-            font-size: 20px;
-            color: #ecf0f1;
+            font-size: 16px;
+            color: #fff;
             text-decoration: none;
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 5px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
         }
 
         .sidebar ul li a:hover {
-            background-color: none;
-            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
-        /* Main Content Styling */
+        .sidebar .logout-btn {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
         .main-content {
-            margin-left: 270px; /* Sidebar width + padding */
-            padding: 20px;
-            width: 100%;
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+            height: 100vh;
             overflow-y: auto;
-            background-color: #f4f4f4;
         }
 
         .container {
-            background-color: white;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
             max-width: 850px;
             margin: 50px auto;
         }
 
         .container h2 {
-            color: #333;
-            margin-bottom: 25px;
-            font-size: 30px;
-            font-weight: bold;
+            color: #2c3e50;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .container h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
         }
 
         .container p {
-            font-size: 18px;
+            font-size: 16px;
             color: #555;
             margin-bottom: 30px;
         }
 
-        .container ul {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 30px;
-        }
-
-        .container ul li {
-            margin-bottom: 20px;
-        }
-
-        .container ul li a {
-            font-size: 18px;
-            color: #3498db;
-            text-decoration: none;
-            display: inline-block;
-            padding: 12px 20px;
-            border-radius: 5px;
-            width: 100%;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .container ul li a:hover {
-            background-color: #2980b9;
-            color: white;
-        }
-
-        /* Notification Styling */
         .notification {
             background-color: #f39c12;
             color: white;
             padding: 15px;
             margin-bottom: 20px;
-            border-radius: 5px;
-            font-size: 18px;
-            text-align: left;
-            width: 100%;
-            display: none; /* Hidden initially */
+            border-radius: 8px;
+            font-size: 16px;
+            display: none;
         }
 
         .notification.active {
-            display: block;
+            display: flex;
+            align-items: center;
         }
 
-        .logout-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: none;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-            margin-top: 5px;
-            transition: background-color 0.3s ease;
+        .notification i {
+            margin-right: 10px;
         }
 
-        .logout-btn:hover {
-            background-color: #fff;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
-                width: 220px;
+                width: 240px;
             }
 
             .main-content {
                 margin-left: 240px;
-            }
-
-            .container {
-                width: 90%;
+                width: calc(100% - 240px);
             }
         }
 
         @media (max-width: 480px) {
             .sidebar {
                 width: 100%;
+                position: relative;
                 height: auto;
+                padding: 15px;
             }
 
             .main-content {
                 margin-left: 0;
-            }
-
-            .container h2 {
-                font-size: 24px;
-            }
-
-            .container p {
-                font-size: 16px;
-            }
-
-            .container ul li a {
-                font-size: 16px;
+                width: 100%;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
-        <h2>Student Dashboard</h2>
+        <h2><i class="fas fa-graduation-cap"></i>Student </h2>
         <ul>
-            <li><a href="{{ url_for('view_evacuations') }}">Evaculation Plan</a></li>
-            <li><a href="{{ url_for('send_alert') }}">Send Alert</a></li>
-            <li><a href="{{ url_for('view_alerts') }}"> Notification</a></li>
-            <li><a href="{{ url_for('profile') }}">View Profile</a></li>
-            <li><a href="{{ url_for('view_reports') }}">View Reports</a></li>
-             <li><a class="logout-btn" href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('view_evacuations') }}"><i class="fas fa-route"></i>Evacuation Plan</a></li>
+            <li><a href="{{ url_for('send_alert') }}"><i class="fas fa-bell"></i>Send Alert</a></li>
+            <li><a href="{{ url_for('view_alerts') }}"><i class="fas fa-envelope"></i>Notifications</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>View Profile</a></li>
+            <li><a href="{{ url_for('view_reports') }}"><i class="fas fa-file-alt"></i>View Reports</a></li>
         </ul>
+        <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="container">
-            <!-- Notification Area -->
             <div class="notification" id="notification">
+                <i class="fas fa-exclamation-circle"></i>
                 New Emergency Alert: Please check the latest updates!
             </div>
 
-            <h2>Welcome, Student!</h2>
-            <p>Here are your profile</p>
-
-<!--            <ul>-->
-<!--                <li><a href="{{ url_for('view_reports') }}">View Incident Reports</a></li>-->
-<!--                <li><a href="{{ url_for('view_evacuations') }}">View Evacuation Instructions</a></li>-->
-<!--&lt;!&ndash;                <li><a href="{{ url_for('real_time_updates') }}">Real-Time Updates</a></li>&ndash;&gt;-->
-<!--                <li><a href="{{ url_for('emergency_procedures') }}">Emergency Procedures</a></li>-->
-<!--            </ul>-->
-
-            <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+            <h2><i class="fas fa-user-graduate"></i>Welcome, Student!</h2>
+            <p>Here is your profile information and important updates.</p>
         </div>
     </div>
 
     <script>
-        // Function to show notification
         function showNotification(message) {
             const notification = document.getElementById('notification');
-            notification.innerHTML = message;
+            notification.innerHTML = '<i class="fas fa-exclamation-circle"></i>' + message;
             notification.classList.add('active');
 
-            // Automatically hide notification after 5 seconds
             setTimeout(function() {
                 notification.classList.remove('active');
             }, 5000);
         }
 
-        // Example: Show notification when the page loads
         window.onload = function() {
             showNotification("Important update: Please follow the evacuation procedures!");
         }

@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Incident Reports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,80 +17,96 @@
 
         /* Sidebar Styling */
         .sidebar {
-            background-color: #C6A15B;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
             color: white;
-            width: 220px;
-            padding: 20px;
+            width: 230px;
+            padding: 25px;
             height: 100vh;
             position: fixed;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
-             color: #333;
-            margin-top: 0;
-            background-color: none;
-            color: #ffff;
-            padding: 2px 2px;
-            border-radius: 6px;
-            font-size: 28px;
+            color: #fff;
+            margin-bottom: 40px;
+            margin-right: 90px;
+            font-size: 24px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h2 i {
+            margin-right: 10px;
         }
 
         .sidebar ul {
-            list-style-type: none;
-            padding: 0;
+            list-style: none;
+            padding-left: 0;
         }
 
         .sidebar ul li {
-            margin: 10px 0;
+            margin-bottom: 15px;
         }
 
         .sidebar ul li a {
-            color: white;
+            font-size: 16px;
+            color: #fff;
             text-decoration: none;
-            font-size: 18px;
-            display: block;
-            padding: 6px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            margin-top: -5px;
-            margin-left: 30px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
         }
 
         .sidebar ul li a:hover {
-            background-color: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .sidebar .logout-btn {
-            margin-top: -17px;
+            margin-bottom: 50px;
+            margin-right: 120px;
+            padding: 12px 25px;
             background-color: none;
             color: white;
-            padding: 12px;
-            text-align: center;
-            display: block;
-            border-radius: 5px;
             text-decoration: none;
-            font-size: 18px;
-            margin-left: -90px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
         }
 
         .sidebar .logout-btn:hover {
             background-color: none;
+            transform: translateY(-2px);
         }
 
-        /* Content Styling */
         .content {
-            margin-left: 260px;
-            padding: 20px;
-            flex-grow: 1;
-            background-color: #fff;
-            min-height: 100vh;
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .content h2 {
-            color: #808080;
+            color: #2c3e50;
             font-size: 28px;
             margin-bottom: 20px;
+
         }
 
         .incident-list {
@@ -99,11 +116,11 @@
         }
 
         .incident-list li {
-            background-color: #f9f9f9;
+            background-color: #ffffff;
             padding: 15px;
             margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .incident-list li:hover {
@@ -132,30 +149,43 @@
             color: #555;
         }
 
-        /* Back Button */
-        .back-btn {
+
+
+.back-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
             background-color: #C6A15B;
             color: white;
-            padding: 12px 20px;
-            text-align: center;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: inline-block;
+            transition: all 0.3s ease;
+            margin-right: 80px;
+<!--            margin-left: 620px;-->
+<!--            margin-bttom: 620px;-->
+        }
+
+        .back-btn i {
+            margin-right: 8px;
         }
 
         .back-btn:hover {
-            background-color: none;
+            background-color: #b3925b;
+            transform: translateX(-3px);
         }
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
+                width: 240px;
             }
 
             .content {
-                margin-left: 200px;
+                margin-left: 240px;
+                width: calc(100% - 240px);
             }
 
             .content h2 {
@@ -169,14 +199,7 @@
             .incident-description {
                 font-size: 14px;
             }
-        h1 {
-            color: #fff;
-            margin-top: 10;
-            background-color: none;
-            color: #333;
-            padding: 6px 20px;
-            border-radius: 4px;
-        }
+
 
         }
     </style>
@@ -185,67 +208,75 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <h2>SERCMS</h2>
+        <h2><i class="fas fa-shield-alt"></i> SERCMS</h2>
         <ul>
-            <li><a href="{{ url_for('send_alert') }}">Send Alerts</a></li>
-            <li><a href="{{ url_for('add_incident') }}">Add Incident</a></li>
-            <li><a href="{{ url_for('view_reports') }}">View Reports</a></li>
-            <li><a href="{{ url_for('emergency_procedures') }}">Procedures</a></li>
+<!--            <li><a href="{{ url_for('send_alert') }}"><i class="fas fa-bell"></i> Send Alerts</a></li>-->
+<!--            <li><a href="{{ url_for('add_incident') }}"><i class="fas fa-exclamation-circle"></i> Add Incident</a></li>-->
+            <li><a href="{{ url_for('view_reports') }}"><i class="fas fa-file-alt"></i> View Reports</a></li>
+             <li><a href="view_alerts"><i class="fas fa-envelope"></i>Notifications</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user"></i>Profile</a></li>
+<!--            <li><a href="{{ url_for('emergency_procedures') }}"><i class="fas fa-hands-helping"></i> Procedures</a></li>-->
         </ul>
-        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
-<!-- Main Content -->
-<div class="content">
-    <h2>Incident Reports</h2>
+    <!-- Main Content -->
+    <div class="content">
+        <div class="top-bar">
 
-    <!-- Display Incident Reports -->
-    {% if reports %}
-        <ul class="incident-list">
-            {% for report in reports %}
-                <li>
-                    <!-- Incident Type -->
-                    <div class="incident-title">Incident Type: {{ report['incident_type'] }}</div>
+        <h2><i class="fas fa-clipboard-list"></i> Incident Reports</h2>
 
-                    <!-- Cause -->
-                    <div class="incident-description">Cause: {{ report['cause'] }}</div>
+<a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>Back
+            </a>
+            </div>
+        <!-- Display Incident Reports -->
+        {% if reports %}
+            <ul class="incident-list">
+                {% for report in reports %}
+                    <li>
+                        <!-- Incident Type -->
+                        <div class="incident-title"><i class="fas fa-info-circle"></i> Incident Type: {{ report['incident_type'] }}</div>
 
-                    <div class="incident-meta">
-                        <small>
-                            <!-- School Name -->
-                            <strong>School:</strong> {{ report['school_name'] }} |
+                        <!-- Cause -->
+                        <div class="incident-description"><i class="fas fa-cogs"></i> Cause: {{ report['cause'] }}</div>
 
-                            <!-- Date and Time -->
-                            <strong>Date:</strong> {{ report['incident_date'] }} |
-                            <strong>Time:</strong> {{ report['incident_time'] }} |
+                        <div class="incident-meta">
+                            <small>
+                                <!-- School Name -->
+                                <strong>School:</strong> {{ report['school_name'] }} |
 
-                            <!-- Status -->
-                            <strong>Status:</strong> {{ report['status'] }} |
+                                <!-- Date and Time -->
+                                <strong>Date:</strong> {{ report['incident_date'] }} |
+                                <strong>Time:</strong> {{ report['incident_time'] }} |
 
-                            <!-- Injuries and Deaths -->
-                            <strong>Injuries:</strong> {{ report['injuries'] }} |
-                            <strong>Deaths:</strong> {{ report['deaths'] }}
-                        </small>
-                    </div>
+                                <!-- Status -->
+                                <strong>Status:</strong> {{ report['status'] }} |
 
-                    <!-- Suspect Info (if available) -->
-                    {% if report['suspect_first_name'] %}
-                        <div class="suspect-info">
-                            <strong>Suspect Info:</strong><br>
-                            Name: {{ report['suspect_first_name'] }} {{ report['suspect_last_name'] }} <br>
-                            Gender: {{ report['suspect_gender'] }} | Age: {{ report['suspect_age'] }}
+                                <!-- Injuries and Deaths -->
+                                <strong>Injuries:</strong> {{ report['injuries'] }} |
+                                <strong>Deaths:</strong> {{ report['deaths'] }}
+                            </small>
                         </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No incident reports found.</p>
-    {% endif %}
 
-    <!-- Back Button -->
-    <a href="{{ url_for('add_incident') }}" class="back-btn">Add New Incident</a>
-</div>
+                        <!-- Suspect Info (if available) -->
+                        {% if report['suspect_first_name'] %}
+                            <div class="suspect-info">
+                                <strong>Suspect Info:</strong><br>
+                                Name: {{ report['suspect_first_name'] }} {{ report['suspect_last_name'] }} <br>
+                                Gender: {{ report['suspect_gender'] }} | Age: {{ report['suspect_age'] }}
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No incident reports found.</p>
+        {% endif %}
+
+        <!-- Back Button -->
+<!--        <a href="{{ url_for('add_incident') }}" class="back-btn"><i class="fas fa-plus-circle"></i> Add New Incident</a>-->
+<!--    </div>-->
 
 </body>
 </html>

@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responder Dashboard</title>
+    <title>Emergency Responder Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General reset */
+        /* Base Styles for Layout */
         * {
             margin: 0;
             padding: 0;
@@ -13,29 +14,36 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             display: flex;
             height: 100vh;
         }
 
-        /* Sidebar styling */
         .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
+            width: 280px;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
             color: white;
-            padding: 20px;
+            padding: 25px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
-            color: #ecf0f1;
+            color: #fff;
             margin-bottom: 40px;
+            margin-right: 120px;
             font-size: 24px;
             text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h2 i {
+            margin-right: 10px;
         }
 
         .sidebar ul {
@@ -44,100 +52,161 @@
         }
 
         .sidebar ul li {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .sidebar ul li a {
-            font-size: 18px;
-            color: #ecf0f1;
+            font-size: 16px;
+            color: #fff;
             text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .sidebar ul li a:hover {
-            background-color: #3498db;
-        }
-
-        .sidebar .logout-btn {
-            margin-top: 30px;
-            padding: 12px 25px;
-            background-color: #e74c3c;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-            width: 100%;
+        .sidebar ul li a i {
+            margin-right: 12px;
+            width: 20px;
             text-align: center;
         }
 
-        .sidebar .logout-btn:hover {
-            background-color: #c0392b;
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
-        /* Content area */
+        .sidebar .logout-btn {
+            margin-bottom: 40px;
+            margin-right: 115px;
+            padding: 12px 25px;
+            background-color: none;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
+        }
+
+        .sidebar .logout-btn:hover {
+            background-color: none;
+            transform: translateY(-2px);
+        }
+
         .content {
-            margin-left: 250px;
-            padding: 20px;
-            width: 100%;
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
             height: 100vh;
             overflow-y: auto;
         }
 
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 55px;
+            padding-top: 60px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
         .content h2 {
-            color: #333;
-            margin-bottom: 30px;
+            color: #2c3e50;
             font-size: 28px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-left: 100px;
         }
 
-        .content p {
-            font-size: 18px;
-            color: #555;
+        .content h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
+        }
+
+        .dashboard-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
-        .content ul {
-            list-style: none;
-            padding-left: 0;
+        .dashboard-section.urgent {
+            border-left: 4px solid #e74c3c;
         }
 
-        .content ul li {
-            margin-bottom: 20px;
+        .school-item, .incident-item, .alert-item, .plan-item {
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
 
-        .content ul li a {
-            font-size: 18px;
-            color: #3498db;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .school-item:hover, .incident-item:hover, .alert-item:hover, .plan-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .content ul li a:hover {
-            color: #2980b9;
+        .incident-item h3, .alert-item h3 {
+            color: #C6A15B;
+            margin-bottom: 10px;
         }
 
-        /* Responsive Design */
+        form {
+            margin-top: 15px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #C6A15B;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #b3925b;
+            transform: translateY(-2px);
+        }
+
+        small {
+            color: #666;
+            display: block;
+            margin-top: 5px;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
+                width: 240px;
             }
 
             .content {
-                margin-left: 200px;
-            }
-
-            .sidebar h2 {
-                font-size: 20px;
-            }
-
-            .sidebar ul li a {
-                font-size: 16px;
-            }
-
-            .content h2 {
-                font-size: 24px;
+                margin-left: 240px;
+                width: calc(100% - 240px);
             }
         }
 
@@ -146,43 +215,132 @@
                 width: 100%;
                 position: relative;
                 height: auto;
+                padding: 15px;
             }
 
             .content {
                 margin-left: 0;
-            }
-
-            .sidebar h2 {
-                font-size: 18px;
-            }
-
-            .sidebar ul li a {
-                font-size: 14px;
-            }
-
-            .content h2 {
-                font-size: 20px;
+                width: 100%;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h2>Responder Dashboard</h2>
+        <h2><i class="fas fa-ambulance"></i>Responder</h2>
         <ul>
-            <li><a href="#">View Ongoing Incidents</a></li>
-            <li><a href="#">Communicate with School Staff</a></li>
+            <li><a href="{{ url_for('view_evacuations') }}"><i class="fas fa-bell"></i>View Evacuation</a></li>
+<!--            <li><a href="view_reports_admin"><i class="fas fa-file-alt"></i>View Incident Reports</a></li>-->
+            <li><a href="{{ url_for('view_reports') }}"><i class="fas fa-file-alt"></i>Incident Reports</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user"></i>Profile</a></li>
+            <li><a href="view_alerts"><i class="fas fa-envelope"></i>Notifications</a></li>
         </ul>
-        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
     </div>
 
     <div class="content">
-        <h2>Welcome, Emergency Responder!</h2>
-        <p>You are in the Responder Dashboard. You can access the following features to assist with ongoing emergencies:</p>
-        <ul>
-            <li><a href="#">View Ongoing Incidents: Monitor and manage ongoing incidents.</a></li>
-            <li><a href="#">Communicate with School Staff: Coordinate with school staff members for efficient responses.</a></li>
-        </ul>
-    </div>
+        <div class="top-bar">
+            <h2><i class="fas fa-tachometer-alt"></i>Emergency Responder Dashboard</h2>
+        </div>
+
+        <!-- Schools Section -->
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-school"></i>Schools</h2>-->
+<!--                   {% if schools %}-->
+<!--                    {% for school in schools %}-->
+<!--                        <div class="school-item">-->
+<!--                            &lt;!&ndash; Debug output &ndash;&gt;-->
+<!--                            <p>Debug data: {{ school }}</p>-->
+<!--                            <h3>{{ school[1] if school|length > 1 else 'Unknown School' }}</h3>-->
+<!--                            <p>{{ school[2] if school|length > 2 else 'No address available' }}</p>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                {% else %}-->
+<!--                    <p>No schools found</p>-->
+<!--                {% endif %}-->
+<!--        </div>-->
+
+        <!-- Active Incidents Section -->
+<!--        <div class="dashboard-section urgent">-->
+<!--            <h2><i class="fas fa-exclamation-circle"></i>Active Incidents</h2>-->
+<!--            &lt;!&ndash; Active Incidents &ndash;&gt;-->
+<!--            {% if active_incidents %}-->
+<!--                {% for incident in active_incidents %}-->
+<!--                    <div class="incident-item">-->
+<!--                        &lt;!&ndash; Debug output &ndash;&gt;-->
+<!--                        <p>Debug data: {{ incident }}</p>-->
+<!--                        <h3>{{ incident[1] if incident|length > 1 else 'Unknown Incident' }}</h3>-->
+<!--                        <p>School: {{ incident.school_name if incident.school_name else 'Unknown School' }}</p>-->
+<!--                        <p>Status: {{ incident[11] if incident|length > 11 else 'Unknown Status' }}</p>-->
+<!--                        <p>Date: {{ incident[2]|string if incident|length > 2 else 'No date available' }}</p>-->
+<!--                    </div>-->
+<!--                {% endfor %}-->
+<!--            {% else %}-->
+<!--                <p>No active incidents</p>-->
+<!--            {% endif %}-->
+
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Recent Alerts Section &ndash;&gt;-->
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-bell"></i>Recent Alerts</h2>-->
+<!--            {% if recent_alerts %}-->
+<!--                <div class="alerts-list">-->
+<!--                    {% for alert in recent_alerts %}-->
+<!--                        <div class="alert-item">-->
+<!--                            <h3><i class="fas fa-bell"></i> {{ alert[1] }} - {{ alert.school_name }}</h3>-->
+<!--                            <p>{{ alert[0] }}</p>-->
+<!--                            <small><i class="fas fa-clock"></i> {{ alert[2].strftime('%Y-%m-%d %H:%M') }}</small>-->
+<!--                            <form action="{{ url_for('respond_to_alert', alert_id=alert[0]) }}" method="POST">-->
+<!--                                <textarea name="response" placeholder="Add response..."></textarea>-->
+<!--                                <button type="submit"><i class="fas fa-reply"></i> Respond</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+<!--            {% else %}-->
+<!--                <p>No recent alerts</p>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Evacuation Plans Section &ndash;&gt;-->
+<!--        <div class="dashboard-section">-->
+<!--            <h2><i class="fas fa-route"></i>Evacuation Plans</h2>-->
+<!--            {% if evacuation_plans %}-->
+<!--                <div class="plans-list">-->
+<!--                    {% for plan in evacuation_plans %}-->
+<!--                        <div class="plan-item">-->
+<!--                            <h3><i class="fas fa-map-marker-alt"></i> {{ plan[1] }} - {{ plan.school_name }}</h3>-->
+<!--                            <p><i class="fas fa-users"></i> Assembly Points: {{ plan[3] }}</p>-->
+<!--                            <p><i class="fas fa-clock"></i> Evacuation Timing: {{ plan[2] }}</p>-->
+<!--                            <p><i class="fas fa-clipboard-check"></i> Accountability: {{ plan[4] }}</p>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+<!--            {% else %}-->
+<!--                <p>No evacuation plans available</p>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        <ul>-->
+<!--            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-shield"></i>View Profile</a></li>-->
+<!--            <li><a href="view_alerts"><i class="fas fa-bell"></i>Notifications</a></li>-->
+<!--        </ul>-->
+
+    <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
+    <script>
+        const socket = io();
+
+        socket.on('new_notification', function(data) {
+            if (Notification.permission === "granted") {
+                new Notification("New Alert", { body: data.message });
+            }
+        });
+
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    </script>
 </body>
 </html>

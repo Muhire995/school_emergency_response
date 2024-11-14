@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Staff Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* General page styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,18 +18,23 @@
 
         /* Sidebar Styling */
         .sidebar {
-            background-color: #C6A15B;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
             color: white;
-            width: 180px;
-            padding: 20px;
+            width: 220px;
+            padding: 25px;
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
             text-align: center;
-            margin-bottom: 30px;
-            margin-right: 80px;
+            margin-bottom: 40px;
+            font-size: 24px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar ul {
@@ -37,103 +43,163 @@
         }
 
         .sidebar ul li {
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
         .sidebar ul li a {
             color: white;
             text-decoration: none;
             font-size: 16px;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
             transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 12px;
         }
 
         .sidebar ul li a:hover {
-            background-color: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .sidebar .logout-btn {
-            margin-top: 50px;
-            background-color: none;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #e74c3c;
             color: white;
-            padding: 10px;
-            text-align: center;
-            display: block;
-            border-radius: 5px;
             text-decoration: none;
-            font-size: 16px;
-            margin-right: 110px;
-            margin-top: -10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
         }
 
         .sidebar .logout-btn:hover {
-            background-color: #c9302c;
+            background-color: #c0392b;
+            transform: translateY(-2px);
         }
 
         /* Content Styling */
         .content {
             margin-left: 260px;
-            padding: 20px;
+            padding: 30px;
             flex-grow: 1;
             background-color: #fff;
             min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background-color: #C6A15B;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-left: 550px;
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .back-btn:hover {
+            background-color: #b3925b;
+            transform: translateX(-3px);
         }
 
         .content h2 {
-            margin-top: 0;
-            color: #333;
+            color: #2c3e50;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            margin: 0;
         }
 
-        .content ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .content ul li {
-            margin: 15px 0;
-            font-size: 18px;
-        }
-
-        .content ul li a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .content ul li a:hover {
-            text-decoration: underline;
+        .content h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
         }
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
-            }
-            .content {
-                margin-left: 200px;
+                width: 220px;
             }
 
-        #notifications-container {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            width: 300px;
+            .content {
+                margin-left: 220px;
+                padding: 20px;
+            }
+
+            .back-btn {
+                margin-right: 10px;
+                font-size: 12px;
+            }
         }
 
-        .notification {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            margin: 5px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 1;
-            transition: opacity 0.5s ease;
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+                position: relative;
             }
 
+            .content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        /* Button Styling */
+        .button-link {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background-color: #C6A15B;
+            padding: 12px 25px;
+            margin: 10px 0;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .button-link:hover {
+            background-color: #C6A15B;
+        }
+
+        .button-link i {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -141,22 +207,39 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <h2>SERCMS</h2>
-        <div id="notifications-container">
-    <!-- Notifications will be appended here -->
-   </div>
+        <h2><i class="fas fa-shield-alt"></i> Staff </h2>
         <ul>
-            <li><a href="{{ url_for('send_alert') }}">Send Alerts</a></li>
-            <li><a href="{{ url_for('add_incident') }}">Add Incident</a></li>
-            <li><a href="{{ url_for('view_reports') }}">View Incident Reports</a></li>
-            <li><a href="{{ url_for('view_alerts') }}">Notification</a></li>
-<!--            <li><a href="{{ url_for('training_modules') }}">Training Modules</a></li>-->
-<!--            <li><a href="{{ url_for('emergency_procedures') }}">Emergency Procedures</a></li>-->
-<!--            <li><a href="{{ url_for('real_time_updates') }}">Real-time Updates</a></li>-->
+            <li><a href="{{ url_for('send_alert') }}"><i class="fas fa-bell"></i> Send Alerts</a></li>
+            <li><a href="{{ url_for('add_incident') }}"><i class="fas fa-plus-circle"></i> Add Incident</a></li>
+            <li><a href="{{ url_for('view_reports') }}"><i class="fas fa-file-alt"></i> View Incident Reports</a></li>
+            <li><a href="{{ url_for('view_alerts') }}"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user"></i> View Profile</a></li>
         </ul>
-        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
+    <!-- Main Content -->
+    <div class="content">
+        <div class="top-bar">
+            <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <div class="content-section">
+            <h3>Welcome to the Dashboard!</h3>
+            <p>This is where you can manage incidents, send alerts, and view reports.</p>
+
+            <!-- Button Links for Profile and Notifications -->
+            <a href="{{ url_for('profile') }}" class="button-link">
+                <i class="fas fa-user-shield"></i> View Profile
+            </a>
+            <a href="{{ url_for('view_alerts') }}" class="button-link">
+                <i class="fas fa-bell"></i> Notifications
+            </a>
+        </div>
+    </div>
 
 </body>
 </html>

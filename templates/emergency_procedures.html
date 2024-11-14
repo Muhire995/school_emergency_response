@@ -4,22 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emergency Procedures</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background-color: #C6A15B;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 20px;
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .back-btn:hover {
+            background-color: #b3925b;
+            transform: translateX(-3px);
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+
+        h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
+        }
+
+        .procedures-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .procedure-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .procedure-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .procedure-title {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .procedure-title i {
+            margin-right: 10px;
+            color: #C6A15B;
+        }
+
+        .procedure-content {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .no-procedures {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .procedure-title {
+                font-size: 18px;
+            }
+
+            .procedure-content {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .back-btn {
+                margin-right: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Emergency Procedures</h2>
-    {% if procedures %}
-        <ul>
-            {% for procedure in procedures %}
-                <li>
-                    <strong>{{ procedure[1] }}</strong><br>
-                    {{ procedure[2] }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No emergency procedures available.</p>
-    {% endif %}
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    <div class="container">
+        <div class="top-bar">
+            <a href="{{ url_for('dashboard') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+            <h2><i class="fas fa-exclamation-triangle"></i>Emergency Procedures</h2>
+        </div>
+
+        {% if procedures %}
+            <ul class="procedures-list">
+                {% for procedure in procedures %}
+                    <li class="procedure-card">
+                        <div class="procedure-title">
+                            <i class="fas fa-shield-alt"></i>
+                            {{ procedure[1] }}
+                        </div>
+                        <div class="procedure-content">
+                            {{ procedure[2] }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="no-procedures">
+                <i class="fas fa-info-circle"></i>
+                <p>No emergency procedures available at this time.</p>
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>

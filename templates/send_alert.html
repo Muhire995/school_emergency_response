@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Emergency Alerts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Your existing CSS */
         /* General page styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,20 +18,24 @@
 
         /* Sidebar Styling */
         .sidebar {
-            background-color: #C6A15B;
+            width: 280px;
+            background: linear-gradient(145deg, #C6A15B, #b3925b);
             color: white;
-            width: 212px;
-            padding: 20px;
+            padding: 0px;
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+
         }
 
         .sidebar h2 {
             text-align: center;
             margin-bottom: 40px;
-            margin-top: -5px;
-            margin-left: -40px;
-            background-color: none;
+            font-size: 24px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar ul {
@@ -40,65 +44,117 @@
         }
 
         .sidebar ul li {
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
         .sidebar ul li a {
             color: white;
             text-decoration: none;
-            font-size: 20px;
-            display: block;
-            padding: 5px;
-            border-radius: 5px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
             transition: background-color 0.3s;
-            margin-left: 20px;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 12px;
         }
 
         .sidebar ul li a:hover {
-            background-color: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .sidebar .logout-btn {
-            margin-top: -10px;
-            background-color: #C6A15B;
+            margin-top: 30px;
+            margin-left: 10px;
+            margin-right: 100px;
+            padding: 10px 25px;
+            background-color: #e74c3c;
             color: white;
-            padding: 10px;
-            text-align: center;
-            display: block;
-            border-radius: 5px;
             text-decoration: none;
-            font-size: 20px;
-            margin-right: 102px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logout-btn i {
+            margin-right: 10px;
         }
 
         .sidebar .logout-btn:hover {
-            background-color: none;
+            background-color: #c0392b;
+            transform: translateY(-2px);
         }
 
         /* Content Styling */
         .content {
-            margin-left: 350px;
-            padding: 20px;
-            flex-grow: 1;
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
             background-color: #fff;
             min-height: 100vh;
-            margin-bottom: 100px;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background-color: #C6A15B;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-left: 350px;
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .back-btn:hover {
+            background-color: #b3925b;
+            transform: translateX(-3px);
         }
 
         .content h2 {
-            margin-top: 0;
-            color: #333;
+            color: #2c3e50;
             font-size: 28px;
-            margin-left: 60px;
+            display: flex;
+            align-items: center;
+            margin: 0;
         }
 
+        .content h2 i {
+            margin-right: 15px;
+            color: #C6A15B;
+        }
+
+        /* Form Styling */
         .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             margin: 0 auto;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form-container label {
@@ -114,7 +170,7 @@
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border-radius: 5px;
+            border-radius: 8px;
             border: 1px solid #ccc;
         }
 
@@ -123,44 +179,47 @@
             color: white;
             padding: 12px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s;
         }
 
         .form-container button:hover {
             background-color: #218838;
         }
 
-        /* Back Button */
-        .back-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 20px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: inline-block;
-        }
-
-        .back-btn:hover {
-            background-color: #0056b3;
-        }
-
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
+                width: 240px;
             }
 
             .content {
-                margin-left: 200px;
+                margin-left: 240px;
+                width: calc(100% - 240px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding: 15px;
             }
 
-            .content h2 {
-                font-size: 24px;
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
             }
         }
     </style>
@@ -169,18 +228,25 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <h2>Staff Dashboard</h2>
+        <h2><i class="fas fa-shield-alt"></i> SERCMS </h2>
         <ul>
-            <li><a href="{{ url_for('add_incident') }}">Add Incident</a></li>
-            <li><a href="{{ url_for('view_reports') }}">Incident Reports</a></li>
+            <li><a href="{{ url_for('add_incident') }}"><i class="fas fa-plus-circle"></i> Add Incident</a></li>
+            <li><a href="{{ url_for('view_reports') }}"><i class="fas fa-file-alt"></i> Incident Reports</a></li>
         </ul>
-        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+        <a class="logout-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <!-- Main Content -->
     <div class="content">
-        <h2>Send Emergency Alerts</h2>
+        <div class="top-bar">
 
+            <h2><i class="fas fa-bell"></i> Send Emergency Alerts</h2>
+
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
         <!-- Alert Form -->
         <div class="form-container">
             <form action="{{ url_for('send_alert') }}" method="POST">
