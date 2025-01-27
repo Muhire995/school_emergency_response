@@ -90,6 +90,39 @@
         .btn:hover {
             background-color: #003366;
         }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            padding: 4px 5px;
+            background-color: #C6A15B;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 20px;
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .back-btn:hover {
+            background-color: #b3925b;
+            transform: translateX(-3px);
+        }
+
     </style>
 </head>
 <body>
@@ -122,7 +155,12 @@
             <p class="no-data">No evacuation plans available for this school.</p>
         {% endif %}
 
-        <a href="{{ url_for('add_evacuations') }}" class="btn">Back to Add Evacuation</a>
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back
+        </a>
+
+<!--        <a href="{{ url_for('add_evacuations') }}" class="btn">Back to Add Evacuation</a>-->
     </div>
 
 </body>
